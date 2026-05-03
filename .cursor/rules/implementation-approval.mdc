@@ -1,0 +1,24 @@
+---
+description: Require explicit approval before editing code/config files (scoped)
+globs: "**/*.{java,gradle,kts,xml,properties,yml,yaml,sql,http,env,sh,bash,zsh,Dockerfile,docker-compose.yaml,docker-compose.yml}"
+alwaysApply: false
+---
+
+# Implementation approval gate (scoped)
+
+## Rule
+When working with files matched by `globs`, do **not** apply edits or run commands that change tracked files until the user explicitly approves.
+
+## What counts as “changes”
+- File edits via patching / writes
+- `git` operations that modify history or working tree (commit, merge, rebase, checkout that discards work, etc.)
+- Dependency installs that modify lockfiles / project files (unless the user explicitly asked)
+
+## What to do instead
+1. Propose the **exact file list** and a **short plan** (1–5 bullets).
+2. Ask for approval using a clear prompt (e.g. “OK to implement?”).
+3. After approval, keep changes minimal and scoped to the approved files.
+
+## Notes
+- If the user says “plan only” / “説明だけ”, do not implement.
+- If scope expands (new files), ask again before creating them.
