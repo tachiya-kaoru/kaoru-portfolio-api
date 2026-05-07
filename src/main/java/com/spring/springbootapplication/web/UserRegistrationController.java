@@ -1,5 +1,6 @@
 package com.spring.springbootapplication.web;
 
+import com.spring.springbootapplication.service.UserRegistrationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,6 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserRegistrationController {
+
+    private final UserRegistrationService userRegistrationService;
+
+    public UserRegistrationController(UserRegistrationService userRegistrationService) {
+        this.userRegistrationService = userRegistrationService;
+    }
 
     @GetMapping("/register")
     public String showRegistrationForm() {
@@ -19,7 +26,7 @@ public class UserRegistrationController {
             @RequestParam("email") String email,
             @RequestParam("password") String password) {
 
-        System.out.println("[register] name=" + name + ", email=" + email + ", passwordLength=" + password.length());
+        userRegistrationService.register(name, email, password);
         return "redirect:/register";
     }
 }
