@@ -40,7 +40,7 @@ public class UserRegistrationController {
             return "user/register";
         }
         model.addAttribute("name", form.getName());
-        return "user/register_complete";
+        return "user/register-complete";
     }
         
 
