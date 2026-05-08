@@ -7,6 +7,7 @@
 <body>
 <main>
     <h1>TOP</h1>
+    <p><span th:text="${loginUserName}">ユーザー名</span> さん、ようこそ！</p>
     <p th:text="${message}">簡易TOPページです</p>
     <p><a th:href="@{/register}">新規登録へ戻る</a></p>
 </main>

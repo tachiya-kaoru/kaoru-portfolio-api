@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserRegistrationController {
@@ -28,8 +29,7 @@ public class UserRegistrationController {
     public String register(
           @Valid @ModelAttribute("form") UserRegistrationForm form,
           BindingResult bindingResult,
-          Model model) {
-
+          HttpSession session) {
         if (bindingResult.hasErrors()) {
             return "user/register";
         }
@@ -39,7 +39,7 @@ public class UserRegistrationController {
             bindingResult.rejectValue("email", "duplicate", e.getMessage());
             return "user/register";
         }
-        model.addAttribute("name", form.getName());
+        session.setAttribute("loginUserName", form.getName());
         return "redirect:/top";
     }
         
