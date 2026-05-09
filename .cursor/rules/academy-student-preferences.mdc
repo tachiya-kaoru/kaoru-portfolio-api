@@ -20,11 +20,11 @@ These rules apply **only in this workspace**. They add to (and do not replace) `
 - Prefer **one step at a time**: explain the next step, then wait for the learner to proceed or ask for the next chunk.
 - Answers should be **accurate and structured**; avoid skipping steps the learner asked to follow.
 
-## Code, config, and fixes
+## Code, config, fixes, **and templates / static assets**
 
-<!-- 日本語: コードや設定ファイルは、リストと短い計画を出したあと、明示の OK があるまで編集しない。説明のみの指示なら書き換えない。 -->
+<!-- 日本語: コードや設定に加え、Thymeleaf の .html・共通や画面用の .css などビューも実装変更なので、globs で承認ゲートの対象に含めています。編集する前は必ずリスト＋計画→明示の OK。説明だけならファイルを書き換えない。 -->
 
-- For files covered by **`implementation-approval.mdc`** (`globs` there): do **not** edit or run commands that change tracked files until the learner **explicitly approves** (e.g. 「OK」「お願いします」), after a clear file list and short plan.
+- For files covered by **`implementation-approval.mdc`** (`globs` includes **Java, config, Dockerfile, templates `*.html`, `*.css`, etc.**): do **not** edit or run commands that change tracked files until the learner **explicitly approves** (e.g. 「OK」「お願いします」「この内容で実装して」), after a clear file list and short plan.
 - If the learner says **「説明だけ」「plan only」**: **no implementation** — explanation and steps only.
 - If **scope grows** (extra files or directories): **stop and ask again** before creating or editing them.
 - Keep changes **minimal** and **scoped** to what was approved; no drive-by refactors or unrelated edits.
