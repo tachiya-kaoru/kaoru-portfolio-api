@@ -4,9 +4,45 @@
 
 body {
     margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
     color: #222;
     background: #fff;
+}
+
+/* Direct children: header + main + footer — sticky footer (footer は常に画面下) */
+body > header.site-header {
+    flex-shrink: 0;
+}
+body > main {
+    flex: 1 0 auto;
+    width: 100%;
+}
+body > footer.site-footer {
+    flex-shrink: 0;
+}
+/* TOP など「本文だけ」を整える（登録ページはページ固有 CSS で main を追加指定） */
+.site-main--top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 40px 48px;
+    text-align: center;
+    gap: 0.75rem;
+    box-sizing: border-box;
+}
+.site-main--top h1 {
+    margin: 0;
+}
+.site-main--top p {
+    margin: 0;
+    max-width: 36rem;
+}
+.site-main--top a {
+    margin-top: 0.25rem;
 }
 
 .site-header {
@@ -69,5 +105,8 @@ body {
         height: 40px;
         padding: 0 16px;
         font-size: 14px;
+    }
+    .site-main--top {
+        padding: 24px 16px 40px;
     }
 }
