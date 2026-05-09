@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="siteHeader" class="site-header">
+    <h1 class="site-title">My Portfolio</h1>
+    <a th:href="@{/login}" class="header-login-btn">ログイン</a>
+</header>
+
+<footer th:fragment="siteFooter" class="site-footer">
+    <p>portfolio site</p>
+</footer>
+</body>
+</html>

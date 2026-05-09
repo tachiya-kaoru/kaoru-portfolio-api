@@ -4,34 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新規登録</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-            color: #222;
-            background: #fff;
-        }
-
         main {
-            min-height: calc(100vh - 120px - 80px); /* header/footerの想定分を引く */
+            min-height: calc(100vh - 120px - 40px);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 64px 16px;
+            justify-content: flex-start;   /* center -> flex-start */
+            padding: 80px 16px 56px;       /* 下余白を増やす */
         }
 
         .page-title {
-            margin: 0 0 64px;
+            margin: 0 0 48px;              /* 64 -> 48 */
             font-size: 36px;
             font-weight: 400;
             line-height: 1.33;
             text-align: center;
-            color: rgba(0,0,0,0.75);
+            color: rgba(0, 0, 0, 0.75);
         }
 
         .form-container {
@@ -40,7 +30,7 @@
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            gap: 48px;
+            gap: 24px;                     /* 48 -> 24（大きく見える原因を減らす） */
         }
 
         .form-group {
@@ -82,7 +72,7 @@
         .submit-button {
             width: 232px;
             height: 53px;
-            margin: 0 auto;
+            margin: 8px auto 0;            /* 上に少し間、下はmainのpaddingで確保 */
             border: none;
             background: #1b5678;
             color: #ffffff;
@@ -109,6 +99,7 @@
     </style>
 </head>
 <body>
+    <div th:replace="~{fragments/layout :: siteHeader}"></div>
     <main>
         <h1 class="page-title">新規登録</h1>
         <form class="form-container" th:action="@{/register}" th:object="${form}" method="post" novalidate>
@@ -133,5 +124,6 @@
             <button class="submit-button" type="submit">登録する</button>
         </form>
     </main>
+    <div th:replace="~{fragments/layout :: siteFooter}"></div>
 </body>
 </html>
