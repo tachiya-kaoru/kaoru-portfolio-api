@@ -11,6 +11,21 @@
         WHERE email = #{email}
     </select>
 
+    <select id="findByEmail" parameterType="string" resultType="com.spring.springbootapplication.domain.User">
+        SELECT
+            id,
+            name,
+            email,
+            password_hash AS passwordHash,
+            introduction,
+            avatar_image_url AS avatarImageUrl,
+            created_at AS createdAt,
+            updated_at AS updatedAt
+        FROM users
+        WHERE email = #{email}
+        LIMIT 1
+    </select>
+
     <insert id="insert" parameterType="com.spring.springbootapplication.domain.User"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO users (

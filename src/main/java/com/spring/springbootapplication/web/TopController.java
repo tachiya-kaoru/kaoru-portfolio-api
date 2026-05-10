@@ -12,7 +12,7 @@ public class TopController {
     public String showTop(Model model, HttpSession session) {
         Object loginUserName = session.getAttribute("loginUserName");
         if (loginUserName == null) {
-            return "redirect:/register";
+            return "redirect:/login";
         }
         model.addAttribute("loginUserName", loginUserName);    
         model.addAttribute("message", "簡易TOPページです");
