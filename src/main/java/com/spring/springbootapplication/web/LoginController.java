@@ -10,9 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.validation.BindingResult;
+import jakarta.validation.Valid;
+
 
 @Controller
 public class LoginController {
+
 
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -29,12 +33,14 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(
-            @ModelAttribute("form") LoginForm form,
+            @Valid @ModelAttribute("form") LoginForm form,
+            BindingResult bindingResult,
             HttpSession session,
             RedirectAttributes redirectAttributes) {
-
-        User user = userMapper.findByEmail(form.getEmail());
-
+        if (bindingResult.hasErrors()) {
+            return "login";
+        }
+        User user = userMapper.findByEmail(form.getEmail());      
         if (user == null || !passwordEncoder.matches(form.getPassword(), user.getPasswordHash())) {
             redirectAttributes.addFlashAttribute("loginError", "メールアドレス、もしくはパスワードが間違っています");
             return "redirect:/login";
