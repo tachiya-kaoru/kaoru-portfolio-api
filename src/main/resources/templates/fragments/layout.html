@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <body>
-<header th:fragment="siteHeader" class="site-header">
-    <h1 class="site-title">My Portfolio</h1>
-    <a th:href="@{/login}" class="header-login-btn">ログイン</a>
-</header>
+    <header th:fragment="siteHeader" class="site-header">
+        <h1 class="site-title">My Portfolio</h1>
+        <nav class="site-header-actions" th:if="${headerNav != null}">
+            <th:block th:if="${headerNav.name() == 'LOGIN'}">
+                <a th:href="@{/login}" class="header-login-btn">ログイン</a>
+            </th:block>
+            <th:block th:if="${headerNav.name() == 'LOGOUT'}">
+                <form th:action="@{/logout}" method="post" class="header-logout-form">
+                    <button type="submit" class="header-logout-btn">ログアウト</button>
+                </form>
+            </th:block>
+        </nav>
+    </header>
 
 <footer th:fragment="siteFooter" class="site-footer">
     <p>portfolio site</p>

@@ -14,6 +14,7 @@ public class TopController {
         if (loginUserName == null) {
             return "redirect:/login";
         }
+        model.addAttribute("headerNav", HeaderNavMode.LOGOUT);
         model.addAttribute("loginUserName", loginUserName);    
         model.addAttribute("message", "簡易TOPページです");
         return "top";

@@ -28,6 +28,7 @@ public class LoginController {
     @GetMapping("/login")
     public String showLoginForm(Model model) {
         model.addAttribute("form", new LoginForm());
+        model.addAttribute("headerNav", HeaderNavMode.NONE);
         return "login";
     }
 
@@ -49,4 +50,11 @@ public class LoginController {
         session.setAttribute("loginUserName", user.getName());
         return "redirect:/top";
     }
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
+    }
+
+
 }

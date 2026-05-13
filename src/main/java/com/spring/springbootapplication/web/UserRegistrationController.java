@@ -22,6 +22,7 @@ public class UserRegistrationController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("form", new UserRegistrationForm());
+        model.addAttribute("headerNav", HeaderNavMode.LOGIN);
         return "user/register";
     }
 
