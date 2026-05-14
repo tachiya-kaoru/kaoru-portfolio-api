@@ -41,6 +41,7 @@ public class UserRegistrationController {
             return "user/register";
         }
         session.setAttribute("loginUserName", form.getName());
+        session.setAttribute("loginUserEmail", form.getEmail());
         return "redirect:/top";
     }
         

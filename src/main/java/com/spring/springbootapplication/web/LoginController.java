@@ -48,6 +48,7 @@ public class LoginController {
         }
 
         session.setAttribute("loginUserName", user.getName());
+        session.setAttribute("loginUserEmail", user.getEmail());
         return "redirect:/top";
     }
     @PostMapping("/logout")
