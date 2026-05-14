@@ -2,19 +2,205 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOP</title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        .top-page {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 80px 16px 48px;
+            box-sizing: border-box;
+        }
+
+        .top-profile {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: flex-start;
+            margin-bottom: 80px;
+        }
+
+        .top-profile__avatar-wrap {
+            flex: 0 0 auto;
+        }
+
+        .top-avatar-img {
+            display: block;
+            width: 360px;
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .top-avatar-placeholder {
+            width: 360px;
+            max-width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #C4C4C4;
+            border: none;
+            border-radius: 50%;
+            box-sizing: border-box;
+        }
+
+        .top-profile__name {
+            margin: 12px 0 0;
+            font-size: 20px;
+            line-height: 1.2;
+            color: #000;
+            text-align: center;
+        }
+
+        .top-profile__content {
+            flex: 1 1 280px;
+            min-width: 0;
+        }
+
+        .top-section-title {
+            margin: 0 0 16px;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 42px;
+            color: rgba(0, 0, 0, 0.75);
+        }
+
+        .top-section-rule {
+            height: 0;
+            border: none;
+            border-top: 2px solid rgba(0, 0, 0, 0.5);
+            margin: 0 0 24px;
+        }
+
+        .top-intro-body {
+            margin: 0 0 24px;
+            font-size: 18px;
+            line-height: 1.5;
+            color: rgba(0, 0, 0, 0.75);
+        }
+
+        .top-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 53px;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 4px;
+            background: #1b5678;
+            color: #fff;
+            font-size: 18px;
+            font: inherit;
+            cursor: not-allowed;
+            opacity: 0.85;
+        }
+
+        .top-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .top-chart-head {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .top-chart-head .top-section-title {
+            text-align: center;
+        }
+
+        .top-chart-frame {
+            width: 100%;
+            max-width: 960px;
+            min-height: 200px;
+            border: 2px dashed rgba(0, 0, 0, 0.25);
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: #fafafa;
+        }
+
+        @media (max-width: 768px) {
+            .top-page {
+                padding: 40px 16px 32px;
+            }
+
+            .top-profile {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .top-profile__avatar-wrap {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            .top-profile__content {
+                flex: none;
+                width: 100%;
+            }
+
+            .top-avatar-img,
+            .top-avatar-placeholder {
+                width: 100%;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+
+            .top-profile__name {
+                text-align: center;
+            }
+
+            .top-section-title {
+                font-size: 28px;
+                line-height: 1.2;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div th:replace="~{fragments/layout :: siteHeader}"></div>
+<div th:replace="~{fragments/layout :: siteHeader}"></div>
 
-<main class="site-main--top">
-    <h1 >TOP</h1>
-    <p><span th:text="${loginUserName}">ユーザー名</span> さん、ようこそ！</p>
-    <p th:text="${message}">簡易TOPページです</p>
-    <p><a th:href="@{/register}">新規登録へ戻る</a></p>
+<main class="top-page">
+    <section class="top-profile" aria-label="プロフィール">
+        <div class="top-profile__avatar-wrap">
+            <img th:if="${user.avatarImageUrl != null and !#strings.isEmpty(user.avatarImageUrl)}"
+                 th:src="${user.avatarImageUrl}"
+                 alt=""
+                 class="top-avatar-img">
+            <div th:unless="${user.avatarImageUrl != null and !#strings.isEmpty(user.avatarImageUrl)}"
+                 class="top-avatar-placeholder"
+                 role="img"
+                 aria-label="画像未設定"></div>
+            <p class="top-profile__name" th:text="${user.name}">氏名</p>
+        </div>
+        <div class="top-profile__content">
+            <h2 class="top-section-title">自己紹介</h2>
+            <hr class="top-section-rule">
+            <p class="top-intro-body"
+               th:if="${user.introduction != null and !#strings.isEmpty(user.introduction)}"
+               th:text="${user.introduction}">自己紹介文</p>
+            <p class="top-intro-body" th:unless="${user.introduction != null and !#strings.isEmpty(user.introduction)}">未設定</p>
+            <button type="button" class="top-btn-primary" disabled>自己紹介を編集する</button>
+        </div>
+    </section>
+
+    <section class="top-chart" aria-label="学習チャート（未実装）">
+        <div class="top-chart-head">
+            <h2 class="top-section-title">学習チャート</h2>
+            <hr class="top-section-rule">
+        </div>
+        <button type="button" class="top-btn-primary" disabled>編集する</button>
+        <div class="top-chart-frame" aria-hidden="true"></div>
+    </section>
 </main>
-    <div th:replace="~{fragments/layout :: siteFooter}"></div>
-  
+
+<div th:replace="~{fragments/layout :: siteFooter}"></div>
 </body>
 </html>
