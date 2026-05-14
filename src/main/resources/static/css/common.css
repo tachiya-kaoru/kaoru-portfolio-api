@@ -139,8 +139,27 @@ body > footer.site-footer {
         padding: 0 16px;
         font-size: 14px;
     }
-    
+
     .site-main--top {
         padding: 24px 16px 40px;
     }
+    /* ログイン画面のみ：ヘッダータイトルを中央（Figma に合わせる） */
+body.page-login .site-header {
+    justify-content: center;
 }
+
+body.page-login .site-header-actions {
+    display: none;
+}
+}
+
+    /* ログイン画面のみ：ヘッダータイトルを中央（Figma に合わせる） */
+    body.page-login .site-header {
+        justify-content: center;
+    }
+    
+    body.page-login .site-header-actions {
+        display: none;
+    }
+    
+    
