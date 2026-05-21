@@ -1,0 +1,47 @@
+---
+# 日本語: Cursor のルール一覧に出る短い説明（英語のままで可）
+description: Require explicit approval before editing code/config files (scoped)
+
+# 日本語: 【重要】この glob に一致するパスへの「編集・追記・削除」をする前は、必ずユーザーの明示承認
+# （例:「OK」「お願いします」「実装して」など）があること。
+# HTML/CSS が含まれないと Thymeleaf や共通CSSを承認なく触れる抜け道になるため、ビュー系も明示的に含めています。
+globs: "**/*.{java,gradle,kts,xml,properties,yml,yaml,sql,http,env,sh,bash,zsh,Dockerfile,docker-compose.yaml,docker-compose.yml,html,htm,css,scss,js,mjs}"
+
+# 日本語: false のとき、このルールは「該当ファイルを扱う状況」で読まれます。チャットだけだと自動注入されないこともありますが、
+# アシスタントは該当ファイルを触る作業では常にこの承認ゲートを守ってください。
+alwaysApply: false
+---
+
+# Implementation approval gate（実装・設定・ビューを触る前の承認）
+
+<!-- 日本語概要: 「いきなり書き換えない」ためのゲート。このプロジェクトでは Thymeleaf（.html）や common.css のようなビューも対象です。 -->
+
+## Rule
+
+When working with files matched by `globs`, do **not** apply edits or run commands that change tracked files until the user explicitly approves.
+
+## Exception — `.cursor/rules/` の更新だけ
+
+<!-- 日本語: ユーザーが「Cursor のルールを直して」「globs を足して」のように、このリポジトリの Cursor ルール変更を明示依頼したときは、そのルールファイル（.mdc）や .cursor/rules 配下は、このゲートとは別に「その依頼の範囲で編集してよい」。ユーザーが読めるよう変更内容には日本語コメントを添えること。 -->
+
+When the learner **explicitly** asks to change Cursor project rules under **`.cursor/`** (e.g. fix `globs`, clarify workflow), you **may edit those rule files without** a separate “OK to edit app code?” step, **within that request**. Add **Japanese comments** (YAML `#` or HTML `<!-- -->` or short JP notes in the rule body) so the learner understands what changed.
+
+Do **not** use this exception to silently expand scope to unrelated application code.
+
+## What counts as “changes”
+
+- File edits via patching / writes  
+- `git` operations that modify history or working tree (commit, merge, rebase, checkout that discards work, etc.)  
+- Dependency installs that modify lockfiles / project files (unless the user explicitly asked)  
+
+## What to do instead
+
+1. Propose the **exact file list** and a **short plan** (1–5 bullets).  
+2. Ask for approval using a clear prompt (e.g. “OK to implement?” / 「この内容で実装していい？」).  
+3. After approval, keep changes minimal and scoped to the approved files.
+
+## Notes
+
+- If the user says “plan only” / 「説明だけ」, do **not** implement application code/templates.  
+- If scope expands (new files), ask again before creating/editing them.  
+- **`mdc`** is **not** in `globs` on purpose so normal app work stays gated; use the **Exception** above when updating rules.

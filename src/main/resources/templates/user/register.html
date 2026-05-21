@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;   /* center -> flex-start */
+            padding: 80px 16px 56px;       /* 下余白を増やす */
+        }
+
+        .page-title {
+            margin: 0 0 48px;              /* 64 -> 48 */
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 1.33;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.75);
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 24px;                     /* 48 -> 24（大きく見える原因を減らす） */
+        }
+
+        .form-group {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 3px;
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.54);
+            font-weight: 400;
+        }
+
+        input {
+            width: 100%;
+            height: 48px;
+            padding: 16px 0 8px;
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+            border-radius: 0;
+            background: transparent;
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom: 2px solid #000000;
+        }
+
+        .error {
+            margin-top: 6px;
+            color: #d92d20;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .submit-button {
+            width: 232px;
+            height: 53px;
+            margin: 8px auto 0;            /* 上に少し間、下はmainのpaddingで確保 */
+            border: none;
+            background: #1b5678;
+            color: #ffffff;
+            border-radius: 4px;
+            font-size: 18px;
+            line-height: 21px;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            opacity: 0.92;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 40px 16px;
+            }
+
+            .page-title {
+                margin-bottom: 40px;
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{fragments/layout :: siteHeader}"></div>
+    <main>
+        <h1 class="page-title">新規登録</h1>
+        <form class="form-container" th:action="@{/register}" th:object="${form}" method="post" novalidate>
+            <div class="form-group">
+                <label for="name">氏名</label>
+                <input id="name" type="text" th:field="*{name}">
+                <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">メールアドレス</label>
+                <input id="email" type="email" th:field="*{email}">
+                <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">パスワード</label>
+                <input id="password" type="password" th:field="*{password}">
+                <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+
+            <button class="submit-button" type="submit">登録する</button>
+        </form>
+    </main>
+    <div th:replace="~{fragments/layout :: siteFooter}"></div>
+</body>
+</html>
