@@ -93,8 +93,8 @@
             color: #fff;
             font-size: 18px;
             font: inherit;
-            cursor: not-allowed;
-            opacity: 0.85;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .top-chart {
@@ -187,7 +187,7 @@
                th:if="${user.introduction != null and !#strings.isEmpty(user.introduction)}"
                th:text="${user.introduction}">自己紹介文</p>
             <p class="top-intro-body" th:unless="${user.introduction != null and !#strings.isEmpty(user.introduction)}">未設定</p>
-            <button type="button" class="top-btn-primary" disabled>自己紹介を編集する</button>
+            <a th:href="@{/profile/edit}" class="top-btn-primary">自己紹介を編集する</a>
         </div>
     </section>
 

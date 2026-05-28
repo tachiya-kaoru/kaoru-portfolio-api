@@ -141,5 +141,18 @@
 </main>
 
 <div th:replace="~{fragments/layout :: siteFooter}"></div>
+<script>
+    document.getElementById('avatarImage').addEventListener('change', function () {
+        var fileName = this.files[0] ? this.files[0].name : '';
+        var label = document.getElementById('selectedFileName');
+        if (fileName) {
+            label.textContent = fileName;
+            label.removeAttribute('hidden');
+        } else {
+            label.textContent = '';
+            label.setAttribute('hidden', '');
+        }
+    });
+</script>
 </body>
 </html>

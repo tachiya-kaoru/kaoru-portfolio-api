@@ -34,3 +34,6 @@ out/
 /.nb-gradle/
 ### macOS ###
 .DS_Store
+src/main/resources/static/uploads/*
+
+src/main/resources/static/uploads/*
