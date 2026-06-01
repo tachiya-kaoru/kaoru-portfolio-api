@@ -82,19 +82,19 @@
         }
 
         .top-btn-primary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 53px;
-            padding: 16px 40px;
-            border: none;
-            border-radius: 4px;
-            background: #1b5678;
-            color: #fff;
-            font-size: 18px;
-            font: inherit;
-            cursor: not-allowed;
-            opacity: 0.85;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 53px;
+        padding: 16px 40px;
+        border: none;
+        border-radius: 4px;
+        background: #1b5678;
+        color: #fff;
+        font-size: 18px;
+        font: inherit;
+        cursor: pointer;
+        text-decoration: none;
         }
 
         .top-chart {
@@ -196,7 +196,7 @@
             <h2 class="top-section-title">学習チャート</h2>
             <hr class="top-section-rule">
         </div>
-        <button type="button" class="top-btn-primary" disabled>編集する</button>
+        <a th:href="@{/skill/edit}" class="top-btn-primary">編集する</a>
         <div class="top-chart-frame" aria-hidden="true"></div>
     </section>
 </main>
