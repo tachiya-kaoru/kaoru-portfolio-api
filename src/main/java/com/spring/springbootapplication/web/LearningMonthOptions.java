@@ -7,7 +7,7 @@ import java.util.List;
 public final class LearningMonthOptions {
 
     /** 今月 + 過去3ヶ月 = 4件 */
-    public static final int RECENT_MONTH_COUNT = 4;
+    public static final int RECENT_MONTH_COUNT = 3;
 
     private LearningMonthOptions() {
     }
