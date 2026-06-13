@@ -12,21 +12,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import com.spring.springbootapplication.service.S3StorageService;
 
 @Controller
 public class ProfileEditController {
 
     private final UserMapper userMapper;
     private final HttpSession session;
+    private final S3StorageService s3StorageService;
 
-    public ProfileEditController(UserMapper userMapper, HttpSession session) {
+    public ProfileEditController(
+            UserMapper userMapper,
+            HttpSession session,
+            S3StorageService s3StorageService) {
         this.userMapper = userMapper;
         this.session = session;
+        this.s3StorageService = s3StorageService;
     }
 
     @GetMapping("/profile/edit")
@@ -68,12 +70,8 @@ public class ProfileEditController {
 
         if (avatarImage != null && !avatarImage.isEmpty()) {
             try {
-                String uploadsDir = "build/resources/main/static/uploads/";
-                Files.createDirectories(Paths.get(uploadsDir));
-                String fileName = System.currentTimeMillis() + "_" + avatarImage.getOriginalFilename();
-                Path savePath = Paths.get(uploadsDir + fileName);
-                Files.write(savePath, avatarImage.getBytes());
-                user.setAvatarImageUrl("/uploads/" + fileName);
+                String avatarUrl = s3StorageService.uploadAvatar(avatarImage);
+                user.setAvatarImageUrl(avatarUrl);
             } catch (IOException e) {
                 model.addAttribute("headerNav", HeaderNavMode.LOGOUT);
                 return "profile/edit";
