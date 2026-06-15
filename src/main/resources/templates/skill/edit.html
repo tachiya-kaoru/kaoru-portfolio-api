@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学習内容の編集</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        .skill-edit-page {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 80px 16px 48px;
+            box-sizing: border-box;
+        }
+
+        .page-title {
+            margin: 0 0 40px;
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 1.33;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.75);
+        }
+
+        .month-field {
+            margin-bottom: 48px;
+        }
+
+        .month-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.54);
+        }
+
+        .month-field select {
+            padding: 8px 16px;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: inherit;
+            height: 44px;
+            background: #fff;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* カテゴリ全体：枠線で囲む */
+        .skill-category {
+            margin-bottom: 40px;
+            padding: 40px;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        /* カテゴリタイトル行（名前＋ボタン横並び） */
+        .skill-category-head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        /* カテゴリ名＋下線のセット */
+        .skill-category-title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .skill-category-title {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: rgba(0, 0, 0, 0.75);
+        }
+
+        /* カテゴリ名の下線 */
+        .skill-category-title-line {
+            width: 240px;
+            height: 0;
+            border: none;
+            border-top: 2px solid rgba(0, 0, 0, 0.5);
+            margin: 0;
+        }
+
+        /* 「項目を追加」ボタン（disabled） */
+        .skill-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 48px;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 4px;
+            background: #1b5678;
+            color: #fff;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* テーブルをカード風に */
+        .skill-table-card {
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+                        0px 2px 2px rgba(0, 0, 0, 0.14),
+                        0px 1px 5px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+        }
+
+        .skill-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .skill-table th,
+        .skill-table td {
+            padding: 16px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        .skill-table th:first-child,
+        .skill-table td:first-child {
+            padding-left: 40px;
+        }
+
+        .skill-table th {
+            font-weight: 500;
+            background: #fff;
+        }
+
+        .skill-empty {
+            margin: 0;
+            padding: 16px 16px 16px 40px;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.54);
+        }
+
+        @media (max-width: 768px) {
+            .skill-edit-page {
+                padding: 40px 16px 32px;
+            }
+
+            .page-title {
+                font-size: 28px;
+                margin-bottom: 32px;
+            }
+
+            .skill-category {
+                padding: 24px 16px;
+            }
+
+            .skill-category-title {
+                font-size: 20px;
+            }
+
+            .skill-category-title-line {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/layout :: siteHeader}"></div>
+
+<main class="skill-edit-page">
+    <h1 class="page-title">学習内容の編集</h1>
+
+    <div class="month-field">
+        <label for="monthSelect">対象月</label>
+        <select id="monthSelect" name="month" aria-label="対象月">
+            <option th:each="opt : ${monthOptions}"
+                    th:value="${opt.value}"
+                    th:text="${opt.label}"
+                    th:selected="${opt.value == selectedMonth.value}">
+            </option>
+        </select>
+    </div>
+
+    <section class="skill-category"
+             th:each="category : ${categories}"
+             th:attr="aria-label=${category.categoryName}">
+             <div class="skill-category-head">
+                <div class="skill-category-title-wrap">
+                    <h2 class="skill-category-title" th:text="${category.categoryName}">カテゴリ</h2>
+                    <hr class="skill-category-title-line">
+                </div>
+                <button type="button" class="skill-btn-primary" disabled>項目を追加する</button>
+            </div>
+    
+            <div class="skill-table-card">
+            <table class="skill-table">
+            <thead>
+            <tr>
+                <th scope="col">項目名</th>
+                <th scope="col">学習時間</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="record : ${learningRecords}"
+                th:if="${record.categoryId == category.id}">
+                <td th:text="${record.itemName}">項目名</td>
+                <td><span th:text="${record.learningTimeMinutes}">0</span>分</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <p class="skill-empty"
+           th:if="${#lists.isEmpty(learningRecords.?[categoryId == category.id])}">
+            登録されている項目はありません
+        </p>
+    </section>
+</main>
+
+<div th:replace="~{fragments/layout :: siteFooter}"></div>
+
+<script th:inline="javascript">
+    (function () {
+        var select = document.getElementById('monthSelect');
+        var baseUrl = /*[[@{/skill/edit}]]*/ '/skill/edit';
+        select.addEventListener('change', function () {
+            window.location.href = baseUrl + '?month=' + encodeURIComponent(select.value);
+        });
+    })();
+</script>
+</body>
+</html>

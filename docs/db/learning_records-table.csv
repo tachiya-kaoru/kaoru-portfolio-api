@@ -1,0 +1,40 @@
+テーブル情報,,,,,,,
+論理テーブル名,学習時間（月×言語）,,,,,,
+物理テーブル名,learning_records,,,,,,
+役割,学習記録の本体。学習項目、学習時間、日時、の追加・編集を行う,,,,,,
+備考,同じユーザー・同じ年・同じ月・同じ言語項目は1行にする（重複防止）,,,,,,
+,,,,,,,
+カラム情報,,,,,,,
+No,論理名,物理名,データ型,Not Null,ユニーク,デフォルト値,備考
+1,学習記録ID,id,integer,有,有,,PK / Auto Increment
+2,ユーザーID,user_id,integer,有,無,,FK（users参照）
+3,カテゴリーID,category_id,integer,有,無,,FK（categories参照）
+4,学習年,learning_year,integer,有,無,,例：2026
+5,学習月,learning_month,integer,有,無,,例：05
+6,学習項目名,item_name,varchar,有,無,,例：Java
+7,学習時間（分）,learning_time_minutes,integer,有,無,,例：40
+8,作成日時,created_at,datetime,有,無,CURRENT_TIMESTAMP,
+9,更新日時,updated_at,datetime,有,無,CURRENT_TIMESTAMP,更新時に自動更新想定
+10,,,,,,,
+11,,,,,,,
+12,,,,,,,
+13,,,,,,,
+14,,,,,,,
+15,,,,,,,
+,,,,,,,
+インデックス情報,,,,,,,
+No,インデックス情報,,カラム,主キー,ユニーク,備考,
+1,PRIMARY KEY,,id,○,,,
+2,UNIQUE,,"user_id, learning_year, learning_month, item_name",,○,同一年月・同一学習項目の重複防止,
+3,INDEX,,user_id,,,ユーザー検索用,
+4,INDEX,,category_id,,,カテゴリー検索用,
+5,,,,,,,
+6,,,,,,,
+,,,,,,,
+外部キー情報,,,,,,,
+No,インデックス情報,,カラム,参照先テーブル,参照先カラム,備考,
+1,FK,,user_id,users,id,,
+2,FK,,category_id,categories,id,,
+3,,,,,,,
+4,,,,,,,
+5,,,,,,,
