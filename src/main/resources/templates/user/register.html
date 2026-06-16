@@ -60,6 +60,13 @@
             outline: none;
             border-bottom: 2px solid #000000;
         }
+        
+        .hint {
+            margin-top: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+            color: rgba(0, 0, 0, 0.54);
+        }
 
         .error {
             margin-top: 6px;
@@ -117,6 +124,7 @@
             <div class="form-group">
                 <label for="password">パスワード</label>
                 <input id="password" type="password" th:field="*{password}">
+                <p class="hint" th:unless="${#fields.hasErrors('password')}">英字と数字を含む8文字以上（半角）</p>
                 <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
 
