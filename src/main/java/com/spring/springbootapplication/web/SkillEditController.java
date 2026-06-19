@@ -60,4 +60,31 @@ public class SkillEditController {
 
         return "skill/edit";
     }
+    @GetMapping("/skill/records/new")
+    public String showNewForm(
+            @RequestParam(name = "month") String month,
+            @RequestParam(name = "categoryId") Long categoryId,
+            Model model,
+            HttpSession session) {
+        Object loginUserEmail = session.getAttribute("loginUserEmail");
+        if (loginUserEmail == null) {
+            return "redirect:/login";
+        }
+
+        // ログイン確認（loginUserEmail が null → redirect:/login）
+
+        MonthOption selectedMonth = LearningMonthOptions.resolveSelectedMonth(month);
+        
+        Category category = categoryMapper.findById(categoryId);
+        
+        if (category == null) {
+            return "redirect:/skill/edit?month=" + selectedMonth.getValue();
+        }
+
+        model.addAttribute("headerNav", HeaderNavMode.LOGOUT);
+        model.addAttribute("selectedMonth", selectedMonth);
+        model.addAttribute("category", category);
+
+        return "skill/record/new";
+    }
 }
