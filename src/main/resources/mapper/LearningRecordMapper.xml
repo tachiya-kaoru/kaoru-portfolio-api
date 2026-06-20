@@ -42,4 +42,13 @@
         )
     </insert>
 
+    <select id="countByUserIdAndYearAndMonthAndItemName" resultType="int">
+        SELECT COUNT(*)
+        FROM learning_records
+        WHERE user_id = #{userId}
+          AND learning_year = #{learningYear}
+          AND learning_month = #{learningMonth}
+          AND item_name = #{itemName}
+    </select>
+
 </mapper>

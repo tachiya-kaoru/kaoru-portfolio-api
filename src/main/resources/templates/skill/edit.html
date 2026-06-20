@@ -215,11 +215,10 @@
             </tbody>
         </table>
         </div>
-
-        <p class="skill-empty"
-           th:if="${#lists.isEmpty(learningRecords.?[categoryId == category.id])}">
-            登録されている項目はありません
-        </p>
+            <p class="skill-empty"
+                th:if="${#lists.isEmpty(learningRecords.?[categoryId == __${category.id}__])}">
+                登録されている項目はありません
+            </p>
     </section>
 </main>
 
