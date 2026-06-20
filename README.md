@@ -57,18 +57,19 @@
 
 ## 使用技術
 
-| 分類 | 技術 |
-| --- | --- |
-| 言語 | Java |
-| フレームワーク | Spring Boot (Spring MVC) |
-| テンプレートエンジン | Thymeleaf |
-| DB アクセス | MyBatis |
-| データベース | PostgreSQL |
-| マイグレーション | Flyway |
-| 認証 | セッション管理 + BCrypt |
-| ビルドツール | Gradle |
-| インフラ / デプロイ | Docker, Render |
-| ファイルストレージ | AWS S3 |
+| 分類 | 技術 | バージョン |
+| --- | --- | --- |
+| 言語 | Java | 17 |
+| フレームワーク | Spring Boot | 3.2.4 |
+| テンプレートエンジン | Thymeleaf | Spring Boot 3.2.4 管理 |
+| DB アクセス | MyBatis | 3.0.3 |
+| マイグレーション | Flyway | Spring Boot 3.2.4 管理 |
+| 認証 | Spring Security Crypto（BCrypt） | Spring Boot 3.2.4 管理 |
+| データベース | PostgreSQL | 13.1 |
+| ビルドツール | Gradle | 8.7 |
+| 実行環境（Docker） | Eclipse Temurin (JDK/JRE) | 17 |
+| インフラ / デプロイ | Render | — |
+| ファイルストレージ | AWS S3 | — |
 
 ---
 
@@ -128,7 +129,7 @@
 ### 1. リポジトリのクローン
 
 ```bash
-git clone 【あなたのリポジトリURL】
+git clone https://github.com/tachiya-kaoru/kaoru-portfolio-api
 ```
 
 ### 2. コンテナの起動
