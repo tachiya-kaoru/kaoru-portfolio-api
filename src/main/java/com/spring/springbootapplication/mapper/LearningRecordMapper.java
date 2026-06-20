@@ -12,4 +12,6 @@ public interface LearningRecordMapper {
             @Param("userId") Long userId,
             @Param("learningYear") Integer learningYear,
             @Param("learningMonth") Integer learningMonth);
+
+    int insert(LearningRecord learningRecord);
 }
