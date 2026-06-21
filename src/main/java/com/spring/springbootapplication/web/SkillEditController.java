@@ -129,7 +129,7 @@ public class SkillEditController {
 
         if (duplicateCount > 0) {
             bindingResult.rejectValue("itemName", "duplicate",
-            form.getItemName() + "は既に登録されています");
+                    form.getItemName() + "は既に登録されています");
             model.addAttribute("headerNav", HeaderNavMode.LOGOUT);
             model.addAttribute("selectedMonth", selectedMonth);
             model.addAttribute("category", category);
@@ -143,8 +143,11 @@ public class SkillEditController {
         record.setLearningMonth(selectedMonth.getMonth());
         record.setItemName(form.getItemName());
         record.setLearningTimeMinutes(Integer.parseInt(form.getLearningTimeMinutes()));
-        learningRecordMapper.insert(record); 
-
-        return "redirect:/skill/edit?month=" + selectedMonth.getValue();
+        learningRecordMapper.insert(record);
+        model.addAttribute("registered", true);
+        model.addAttribute("headerNav", HeaderNavMode.LOGOUT);
+        model.addAttribute("selectedMonth", selectedMonth);
+        model.addAttribute("category", category);
+        return "skill/record/new";
     }
 }

@@ -2,35 +2,122 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>項目を追加する</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        .skill-record-new-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 16px 56px;
+        }
+    
+        .page-title {
+            margin: 0 0 80px;
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 1.334;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.75);
+        }
+    
+        .form-container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 48px;
+        }
+    
+        .form-group {
+            width: 100%;
+        }
+    
+        .form-group label {
+            display: block;
+            margin-bottom: 3px;
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.54);
+        }
+    
+        .form-group input {
+            width: 100%;
+            height: 48px;
+            padding: 16px 0 8px;
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+            border-radius: 0;
+            background: transparent;
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.87);
+        }
+    
+        .form-group input:focus {
+            outline: none;
+            border-bottom: 2px solid #000000;
+        }
+    
+        .error {
+            margin-top: 6px;
+            color: #d92d20;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+    
+        .submit-button {
+            width: 232px;
+            height: 53px;
+            margin: 0 auto;
+            border: none;
+            background: #1B5678;
+            color: #FFFFFF;
+            border-radius: 4px;
+            font-size: 18px;
+            line-height: 21px;
+            cursor: pointer;
+        }
+    </style>
 </head>
-<body>
+<body class="page-skill-record-new">
 <div th:replace="~{fragments/layout :: siteHeader}"></div>
 
-<main>
-    <h1 th:text="'【' + ${category.categoryName} + '】 ' + ${selectedMonth.label} + ' の項目を追加'">項目を追加</h1>
-
-    <form th:action="@{/skill/records/new(month=${selectedMonth.value}, categoryId=${category.id})}"
+<main class="skill-record-new-page">
+    <h1 class="page-title" th:text="${category.categoryName} + ' に項目を追加'">項目を追加</h1>
+    <form class="form-container"
+          th:action="@{/skill/records/new(month=${selectedMonth.value}, categoryId=${category.id})}"
           th:object="${form}"
-          method="post"
-          novalidate>
+        method="post"
+        novalidate>
 
-        <div>
+        <div class="form-group">
             <label for="itemName">項目名</label>
             <input id="itemName" type="text" th:field="*{itemName}">
-            <div th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}"></div>
+            <div class="error" th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}"></div>
         </div>
-
-        <div>
-            <label for="learningTimeMinutes">学習時間（分）</label>
+        
+        <div class="form-group">
+            <label for="learningTimeMinutes">学習時間</label>
             <input id="learningTimeMinutes" type="number" min="0" th:field="*{learningTimeMinutes}">
-            <div th:if="${#fields.hasErrors('learningTimeMinutes')}" th:errors="*{learningTimeMinutes}"></div>
+            <div class="error" th:if="${#fields.hasErrors('learningTimeMinutes')}" th:errors="*{learningTimeMinutes}"></div>
         </div>
 
-        <button type="submit">登録する</button>
+        <button type="submit" class="submit-button">追加する</button>
     </form>
 </main>
 
 <div th:replace="~{fragments/layout :: siteFooter}"></div>
+<div th:if="${registered}" id="modal-overlay">
+    <div id="modal-box">
+        <p>
+            <span th:text="${category.categoryName} + 'に ' + ${form.itemName} + 'を'"></span><br>
+            <span th:text="${form.learningTimeMinutes} + '分で追加しました！'"></span>
+        </p>
+        <a th:href="@{/skill/edit(month=${selectedMonth.value})}">
+            <button type="button">編集ページに戻る</button>
+        </a>
+    </div>
+</div>
 </body>
 </html>
