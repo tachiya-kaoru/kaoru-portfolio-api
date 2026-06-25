@@ -15,11 +15,16 @@ https://github.com/user-attachments/assets/4312fd40-b1fe-452f-a3bd-e6fa09b9c4c8
 
 https://github.com/user-attachments/assets/44afedea-a4c2-4bb0-a21a-c7243e2e515f
 
+---
 
+## 本番環境
+- 本番URL（Render）: 【 https://kaoru-portfolio-api.onrender.com/login 】
+- テストアカウント
+  メールアドレス 【 tarou@test 】
+  パスワード　【 tarou01test01 】
 
-- 本番環境（Render）: 【 https://kaoru-portfolio-api.onrender.com/login 】
-- ※ 無料プランのためアクセス直後は起動に時間がかかる場合があります。
-- 現在開発中のため、ブランチの切り替えなどでうまく動作しない部分がある可能性があります。
+  ※ 無料プランのためアクセス直後は起動に時間がかかる場合があります。
+     現在開発中のため、ブランチの切り替えなどでうまく動作しない部分がある可能性があります。
 
 ---
 
