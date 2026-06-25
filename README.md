@@ -19,7 +19,7 @@ https://github.com/user-attachments/assets/44afedea-a4c2-4bb0-a21a-c7243e2e515f
 
 ## 本番環境
 - 本番URL（Render）: 【 https://kaoru-portfolio-api.onrender.com/login 】
-- テストアカウント
+- テストアカウント：
   メールアドレス 【 tarou@test 】
   パスワード　【 tarou01test01 】
 
