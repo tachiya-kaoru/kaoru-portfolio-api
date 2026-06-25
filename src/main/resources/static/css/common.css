@@ -161,5 +161,68 @@ body.page-login .site-header-actions {
     body.page-login .site-header-actions {
         display: none;
     }
+    /* スキルテーブル */
+    .skill-table {
+        table-layout: fixed;
+        width: 100%;
+    }
     
-    
+    .skill-table th:first-child,
+    .skill-table td:first-child {
+        width: 70%;
+    }
+
+
+    /* モーダル */
+#modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+#modal-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: 640px;
+    height: 240px;
+    background: #FFFFFF;
+    border-radius: 4px;
+}
+
+#modal-box p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.75);
+    margin: 0;
+}
+
+#modal-box a {
+    text-decoration: none;
+}
+
+#modal-box button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 40px;
+    width: 192px;
+    height: 48px;
+    background: #1B5678;
+    border-radius: 4px;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #FFFFFF;
+    cursor: pointer;
+}

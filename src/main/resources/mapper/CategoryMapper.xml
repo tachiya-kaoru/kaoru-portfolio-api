@@ -14,5 +14,14 @@
         FROM categories
         ORDER BY id
     </select>
-
+    <select id="findById" resultType="com.spring.springbootapplication.domain.Category">
+        SELECT
+            id,
+            category_name AS categoryName,
+            created_at AS createdAt,
+            updated_at AS updatedAt
+        FROM categories
+        WHERE id = #{id}
+        LIMIT 1
+    </select>
 </mapper>

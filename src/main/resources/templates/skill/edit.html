@@ -102,8 +102,7 @@
             color: #fff;
             font-size: 14px;
             font-family: inherit;
-            cursor: not-allowed;
-            opacity: 0.6;
+            
         }
 
         /* テーブルをカード風に */
@@ -196,7 +195,7 @@
                     <h2 class="skill-category-title" th:text="${category.categoryName}">カテゴリ</h2>
                     <hr class="skill-category-title-line">
                 </div>
-                <button type="button" class="skill-btn-primary" disabled>項目を追加する</button>
+                <a th:href="@{/skill/records/new(month=${selectedMonth.value}, categoryId=${category.id})}"class="skill-btn-primary">項目を追加する</a>
             </div>
     
             <div class="skill-table-card">
@@ -216,11 +215,10 @@
             </tbody>
         </table>
         </div>
-
-        <p class="skill-empty"
-           th:if="${#lists.isEmpty(learningRecords.?[categoryId == category.id])}">
-            登録されている項目はありません
-        </p>
+            <p class="skill-empty"
+                th:if="${#lists.isEmpty(learningRecords.?[categoryId == __${category.id}__])}">
+                登録されている項目はありません
+            </p>
     </section>
 </main>
 
