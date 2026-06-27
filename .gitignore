@@ -31,7 +31,6 @@ out/
 /nbbuild/
 /dist/
 /nbdist/
-
 /.nb-gradle/
 ### macOS ###
 .DS_Store

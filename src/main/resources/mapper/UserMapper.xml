@@ -43,4 +43,10 @@
         )
     </insert>
 
+    <update id="update" parameterType="com.spring.springbootapplication.domain.User">
+        UPDATE users
+        SET introduction = #{introduction},
+            avatar_image_url = #{avatarImageUrl}
+        WHERE email = #{email}
+    </update>
 </mapper>
