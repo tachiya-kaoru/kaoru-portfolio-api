@@ -175,7 +175,7 @@
 
 <main class="skill-edit-page">
     <h1 class="page-title">学習内容の編集</h1>
-
+    
     <div class="month-field">
         <label for="monthSelect">対象月</label>
         <select id="monthSelect" name="month" aria-label="対象月">
@@ -220,8 +220,8 @@
                 登録されている項目はありません
             </p>
     </section>
+    <a th:href="@{/top}" class="btn-primary" style="display: block; width: fit-content; margin-left: auto; margin-top: 24px;">TOPに戻る</a>
 </main>
-
 <div th:replace="~{fragments/layout :: siteFooter}"></div>
 
 <script th:inline="javascript">
