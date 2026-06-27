@@ -226,3 +226,20 @@ body.page-login .site-header-actions {
     color: #FFFFFF;
     cursor: pointer;
 }
+
+/* 共通ボタン（紺色） */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 53px;
+    padding: 16px 40px;
+    border: none;
+    border-radius: 4px;
+    background: #1b5678;
+    color: #fff;
+    font-size: 18px;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
