@@ -18,9 +18,9 @@ public class UserRegistrationForm {
     @NotBlank(message = "パスワードは必ず入力してください")
     @Pattern(
         regexp = "^$|(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
-        message = "英数字8文字以上で入力してください"
+        message = "パスワードは半角英数字8文字以上、かつ英字・数字を両方含めてください"
     )
-    
+
     private String password;
 
     public String getName() {

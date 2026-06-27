@@ -73,28 +73,29 @@
             border-top: 2px solid rgba(0, 0, 0, 0.5);
             margin: 0 0 24px;
         }
-
         .top-intro-body {
             margin: 0 0 24px;
             font-size: 18px;
             line-height: 1.5;
             color: rgba(0, 0, 0, 0.75);
+            white-space: pre-line;
+            overflow-wrap: break-word;
         }
 
         .top-btn-primary {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 53px;
-        padding: 16px 40px;
-        border: none;
-        border-radius: 4px;
-        background: #1b5678;
-        color: #fff;
-        font-size: 18px;
-        font: inherit;
-        cursor: pointer;
-        text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 53px;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 4px;
+            background: #1b5678;
+            color: #fff;
+            font-size: 18px;
+            font: inherit;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .top-chart {
@@ -187,7 +188,7 @@
                th:if="${user.introduction != null and !#strings.isEmpty(user.introduction)}"
                th:text="${user.introduction}">自己紹介文</p>
             <p class="top-intro-body" th:unless="${user.introduction != null and !#strings.isEmpty(user.introduction)}">未設定</p>
-            <button type="button" class="top-btn-primary" disabled>自己紹介を編集する</button>
+            <a th:href="@{/profile/edit}" class="top-btn-primary">自己紹介を編集する</a>
         </div>
     </section>
 

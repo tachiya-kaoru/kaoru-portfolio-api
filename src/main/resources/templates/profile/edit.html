@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新規登録</title>
+    <title>自己紹介の編集</title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <style>
         main {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;   /* center -> flex-start */
-            padding: 80px 16px 56px;       /* 下余白を増やす */
+            justify-content: flex-start;
+            padding: 80px 16px 56px;
         }
 
         .page-title {
-            margin: 0 0 48px;              /* 64 -> 48 */
+            margin: 0 0 48px;
             font-size: 36px;
             font-weight: 400;
             line-height: 1.33;
@@ -29,7 +29,7 @@
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            gap: 24px;                     /* 48 -> 24（大きく見える原因を減らす） */
+            gap: 24px;
         }
 
         .form-group {
@@ -44,28 +44,36 @@
             font-weight: 400;
         }
 
-        input {
+        textarea {
             width: 100%;
-            height: 48px;
-            padding: 16px 0 8px;
+            min-height: 160px;
+            padding: 12px 0 8px;
             border: none;
             border-bottom: 1px solid rgba(0, 0, 0, 0.42);
             border-radius: 0;
             background: transparent;
             font-size: 16px;
+            line-height: 1.5;
             color: rgba(0, 0, 0, 0.87);
+            resize: vertical;
+            font-family: inherit;
         }
 
-        input:focus {
+        textarea:focus {
             outline: none;
             border-bottom: 2px solid #000000;
         }
-        
-        .hint {
+
+        input[type="file"] {
+            width: 100%;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        .selected-file-name {
             margin-top: 6px;
-            font-size: 12px;
-            line-height: 1.4;
-            color: rgba(0, 0, 0, 0.54);
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.75);
         }
 
         .error {
@@ -78,7 +86,7 @@
         .submit-button {
             width: 232px;
             height: 53px;
-            margin: 8px auto 0;            /* 上に少し間、下はmainのpaddingで確保 */
+            margin: 8px auto 0;
             border: none;
             background: #1b5678;
             color: #ffffff;
@@ -105,32 +113,46 @@
     </style>
 </head>
 <body>
-    <div th:replace="~{fragments/layout :: siteHeader}"></div>
-    <main>
-        <h1 class="page-title">新規登録</h1>
-        <form class="form-container" th:action="@{/register}" th:object="${form}" method="post" novalidate>
-            <div class="form-group">
-                <label for="name">氏名</label>
-                <input id="name" type="text" th:field="*{name}">
-                <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-            </div>
+<div th:replace="~{fragments/layout :: siteHeader}"></div>
 
-            <div class="form-group">
-                <label for="email">メールアドレス</label>
-                <input id="email" type="email" th:field="*{email}">
-                <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-            </div>
+<main>
+    <h1 class="page-title">自己紹介の編集</h1>
 
-            <div class="form-group">
-                <label for="password">パスワード</label>
-                <input id="password" type="password" th:field="*{password}">
-                <p class="hint" th:unless="${#fields.hasErrors('password')}">英字と数字を含む8文字以上（半角）</p>
-                <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-            </div>
+    <form class="form-container"
+          th:action="@{/profile/edit}"
+          th:object="${form}"
+          method="post"
+          enctype="multipart/form-data"
+          novalidate>
+        <div class="form-group">
+            <label for="introduction">自己紹介</label>
+            <textarea id="introduction" th:field="*{introduction}"></textarea>
+            <div class="error" th:if="${#fields.hasErrors('introduction')}" th:errors="*{introduction}"></div>
+        </div>
 
-            <button class="submit-button" type="submit">登録する</button>
-        </form>
-    </main>
-    <div th:replace="~{fragments/layout :: siteFooter}"></div>
+        <div class="form-group">
+            <label for="avatarImage">アバター画像</label>
+            <input id="avatarImage" type="file" name="avatarImage" accept="image/*">
+            <p class="selected-file-name" id="selectedFileName" hidden></p>
+        </div>
+
+        <button class="submit-button" type="submit">自己紹介を確定する</button>
+    </form>
+</main>
+
+<div th:replace="~{fragments/layout :: siteFooter}"></div>
+<script>
+    document.getElementById('avatarImage').addEventListener('change', function () {
+        var fileName = this.files[0] ? this.files[0].name : '';
+        var label = document.getElementById('selectedFileName');
+        if (fileName) {
+            label.textContent = fileName;
+            label.removeAttribute('hidden');
+        } else {
+            label.textContent = '';
+            label.setAttribute('hidden', '');
+        }
+    });
+</script>
 </body>
 </html>
