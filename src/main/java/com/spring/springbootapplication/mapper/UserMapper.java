@@ -12,4 +12,6 @@ public interface UserMapper {
     int insert(User user);
 
     User findByEmail(@Param("email") String email);
+	
+	void update(User user);
 }
