@@ -112,7 +112,7 @@
             box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
                         0px 2px 2px rgba(0, 0, 0, 0.14),
                         0px 1px 5px rgba(0, 0, 0, 0.12);
-            overflow: hidden;
+            
         }
 
         .skill-table {
@@ -144,6 +144,57 @@
             padding: 16px 16px 16px 40px;
             font-size: 14px;
             color: rgba(0, 0, 0, 0.54);
+        }
+
+        /* 1行の中：入力欄とボタンを横並び */
+        .skill-time-form {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            flex-wrap: wrap;  /* 狭い画面では折り返し */
+        }
+
+        /* 学習時間入力欄（Figma: 160×40） */
+        .skill-time-input {
+            width: 160px;
+            height: 40px;
+            padding: 0 12px;
+            border: 1px solid rgba(0, 0, 0, 0.23);
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        /* 「学習時間を保存する」ボタン（アウトライン） */
+        .btn-outline-primary {
+            padding: 8px 16px;
+            background: #FFFFFF;
+            border: 1px solid #1B5678;
+            border-radius: 4px;
+            color: #1B5678;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        /* common.css の 70% を上書き */
+        .skill-edit-page .skill-table th:first-child,
+        .skill-edit-page .skill-table td:first-child {
+            width: 28%;
+        }
+
+        .skill-edit-page .skill-table th:nth-child(2),
+        .skill-edit-page .skill-table td:nth-child(2) {
+            width: 22%;
+        }
+
+        .skill-edit-page .skill-table th:nth-child(3),
+        .skill-edit-page .skill-table td:nth-child(3) {
+            width: 50%;
+            text-align: right;
+            padding-right: 40px;
         }
 
         @media (max-width: 768px) {
@@ -204,13 +255,34 @@
             <tr>
                 <th scope="col">項目名</th>
                 <th scope="col">学習時間</th>
+                <th scope="col" aria-hidden="true"></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="record : ${learningRecords}"
                 th:if="${record.categoryId == category.id}">
                 <td th:text="${record.itemName}">項目名</td>
-                <td><span th:text="${record.learningTimeMinutes}">0</span>分</td>
+                <td>
+                    <form th:id="'form-' + ${record.id}"
+                          th:action="@{/skill/records/update}"
+                          method="post">
+                        <input type="hidden" name="recordId" th:value="${record.id}">
+                        <input type="hidden" name="month" th:value="${selectedMonth.value}">
+                        <input type="number"
+                               name="learningTimeMinutes"
+                               class="skill-time-input"
+                               th:value="${record.learningTimeMinutes}"
+                               min="0"
+                               aria-label="学習時間（分）">
+                    </form>
+                </td>
+                <td>
+                    <button type="submit"
+                            class="btn-outline-primary"
+                            th:attr="form='form-' + ${record.id}">
+                        学習時間を保存する
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -223,6 +295,17 @@
     <a th:href="@{/top}" class="btn-primary" style="display: block; width: fit-content; margin-left: auto; margin-top: 24px;">TOPに戻る</a>
 </main>
 <div th:replace="~{fragments/layout :: siteFooter}"></div>
+<div th:if="${updateCompleted}" id="modal-overlay">
+    <div id="modal-box">
+        <p>
+            <span th:text="${updatedItemName} + 'の学習時間を'"></span><br>
+            <span th:text="${updatedMinutes} + '分で更新しました！'"></span>
+        </p>
+        <a th:href="@{/skill/edit(month=${selectedMonth.value})}">
+            <button type="button">編集ページに戻る</button>
+        </a>
+    </div>
+</div>
 
 <script th:inline="javascript">
     (function () {

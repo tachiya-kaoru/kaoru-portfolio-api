@@ -20,4 +20,9 @@ public interface LearningRecordMapper {
         @Param("learningYear") Integer learningYear,
         @Param("learningMonth") Integer learningMonth,
         @Param("itemName") String itemName);
+    int updateLearningTimeMinutes(
+        @Param("id") Long id,
+        @Param("userId") Long userId,
+        @Param("learningTimeMinutes") Integer learningTimeMinutes);
+
 }
