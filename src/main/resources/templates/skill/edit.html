@@ -219,6 +219,66 @@
                 width: 100%;
             }
         }
+        @media (max-width: 640px) {
+            /* テーブルヘッダーを隠す（項目名・学習時間） */
+            .skill-edit-page .skill-table thead {
+                display: none;
+            }
+
+            /* 1行 = 1カード */
+            .skill-edit-page .skill-table tbody tr {
+                display: block;
+                padding: 16px;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .skill-edit-page .skill-table tbody tr:last-child {
+                border-bottom: none;
+            }
+
+            /* 各セルを縦積み */
+            .skill-edit-page .skill-table td {
+                display: block;
+                width: 100% !important;
+                padding: 8px 0 !important;
+                text-align: left !important;
+                border-bottom: none;
+            }
+
+            /* 項目名を見出しっぽく */
+            .skill-edit-page .skill-table td:first-child {
+                padding-left: 0 !important;
+                font-weight: 700;
+                font-size: 16px;
+            }
+
+            /* 学習時間ラベル（ヘッダー非表示の代わり） */
+            .skill-edit-page .skill-table td:nth-child(2)::before {
+                content: "学習時間";
+                display: block;
+                margin-bottom: 6px;
+                font-size: 12px;
+                color: rgba(0, 0, 0, 0.54);
+            }
+
+            /* 入力欄を幅いっぱいに */
+            .skill-edit-page .skill-time-input {
+                width: 100%;
+            }
+
+            /* 保存ボタンも幅いっぱい */
+            .skill-edit-page .skill-table td:nth-child(3) {
+                padding-right: 0 !important;
+                padding-top: 12px !important;
+            }
+
+            .skill-edit-page .btn-outline-primary {
+                width: 100%;
+                box-sizing: border-box;
+                white-space: normal;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
