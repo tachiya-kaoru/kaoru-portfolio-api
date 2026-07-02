@@ -24,4 +24,31 @@
         ORDER BY category_id, id
     </select>
 
+    <insert id="insert" parameterType="com.spring.springbootapplication.domain.LearningRecord">
+        INSERT INTO learning_records (
+            user_id,
+            category_id,
+            learning_year,
+            learning_month,
+            item_name,
+            learning_time_minutes
+        ) VALUES (
+            #{userId},
+            #{categoryId},
+            #{learningYear},
+            #{learningMonth},
+            #{itemName},
+            #{learningTimeMinutes}
+        )
+    </insert>
+
+    <select id="countByUserIdAndYearAndMonthAndItemName" resultType="int">
+        SELECT COUNT(*)
+        FROM learning_records
+        WHERE user_id = #{userId}
+          AND learning_year = #{learningYear}
+          AND learning_month = #{learningMonth}
+          AND item_name = #{itemName}
+    </select>
+
 </mapper>
