@@ -51,4 +51,11 @@
           AND item_name = #{itemName}
     </select>
 
+    <update id="updateLearningTimeMinutes">
+        UPDATE learning_records
+        SET learning_time_minutes = #{learningTimeMinutes},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+          AND user_id = #{userId}
+    </update>
 </mapper>
