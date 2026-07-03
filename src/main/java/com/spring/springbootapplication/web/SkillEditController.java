@@ -150,4 +150,71 @@ public class SkillEditController {
         model.addAttribute("category", category);
         return "skill/record/new";
     }
+    /* 学習時間を更新する */
+    @PostMapping("/skill/records/update")
+    public String updateRecord(
+            @RequestParam(name = "recordId") Long recordId,
+            @RequestParam(name = "month") String month,
+            @RequestParam(name = "learningTimeMinutes") String learningTimeMinutes,
+            Model model,
+            HttpSession session) {
+
+        // ① ログイン確認
+        Object loginUserEmail = session.getAttribute("loginUserEmail");
+        if (loginUserEmail == null) {
+            return "redirect:/login";
+        }
+        User user = userMapper.findByEmail(loginUserEmail.toString());
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        MonthOption selectedMonth = LearningMonthOptions.resolveSelectedMonth(month);
+
+        // ② 入力チェック
+        if (learningTimeMinutes == null
+                || learningTimeMinutes.isBlank()
+                || !learningTimeMinutes.matches("^[0-9]+$")) {
+            return "redirect:/skill/edit?month=" + selectedMonth.getValue();
+        }
+
+        int minutes = Integer.parseInt(learningTimeMinutes);
+
+        // ③ DB更新（自分のレコードだけ）
+        int updated = learningRecordMapper.updateLearningTimeMinutes(
+                recordId,
+                user.getId(),
+                minutes);
+
+        if (updated == 0) {
+            // レコードが見つからない or 他人のデータ
+            return "redirect:/skill/edit?month=" + selectedMonth.getValue();
+        }
+
+        // ④ 編集画面のデータを再取得
+        List<MonthOption> monthOptions = LearningMonthOptions.buildRecentMonths();
+        List<Category> categories = categoryMapper.findAll();
+        List<LearningRecord> learningRecords = learningRecordMapper.findByUserIdAndYearAndMonth(
+                user.getId(),
+                selectedMonth.getYear(),
+                selectedMonth.getMonth());
+
+        model.addAttribute("headerNav", HeaderNavMode.LOGOUT);
+        model.addAttribute("monthOptions", monthOptions);
+        model.addAttribute("selectedMonth", selectedMonth);
+        model.addAttribute("categories", categories);
+        model.addAttribute("learningRecords", learningRecords);
+        model.addAttribute("updateCompleted", true);
+        /* 更新した学習時間を表示 */
+        model.addAttribute("updatedMinutes", minutes);
+        for (LearningRecord record : learningRecords) {
+            if (record.getId().equals(recordId)) {
+                model.addAttribute("updatedItemName", record.getItemName());
+                break;
+            }
+        }
+
+        // ⑤ 編集画面を表示
+        return "skill/edit";
+    }
 }
