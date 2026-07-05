@@ -179,24 +179,48 @@
             cursor: pointer;
             white-space: nowrap;
         }
-        /* common.css の 70% を上書き */
+        /* 「削除する」ボタン（Figma: 赤 #EE6969） */
+        .btn-danger {
+            padding: 8px 16px;
+            background: #EE6969;
+            border: none;
+            border-radius: 4px;
+            color: #FFFFFF;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .skill-edit-page .skill-table {
+            table-layout: fixed;
+        }
+
+        /* common.css の 70% を上書き（Figma: 240/880） */
         .skill-edit-page .skill-table th:first-child,
         .skill-edit-page .skill-table td:first-child {
-            width: 28%;
+            width: 27.27%;
         }
 
         .skill-edit-page .skill-table th:nth-child(2),
         .skill-edit-page .skill-table td:nth-child(2) {
-            width: 22%;
+            width: 27.27%;
         }
 
         .skill-edit-page .skill-table th:nth-child(3),
         .skill-edit-page .skill-table td:nth-child(3) {
-            width: 50%;
+            width: 22.73%;
             text-align: right;
-            padding-right: 40px;
+            vertical-align: middle;
         }
 
+        .skill-edit-page .skill-table th:nth-child(4),
+        .skill-edit-page .skill-table td:nth-child(4) {
+            width: 22.73%;
+            text-align: right;
+            vertical-align: middle;
+            padding-right: 40px;
+        }
         @media (max-width: 768px) {
             .skill-edit-page {
                 padding: 40px 16px 32px;
@@ -278,6 +302,16 @@
                 white-space: normal;
                 text-align: center;
             }
+             /* 削除ボタンも幅いっぱい */
+            .skill-edit-page .skill-table td:nth-child(4) {
+                padding-right: 0 !important;
+                padding-top: 8px !important;
+            }
+
+            .skill-edit-page .btn-danger {
+                width: 100%;
+                box-sizing: border-box;
+            }
         }
     </style>
 </head>
@@ -316,6 +350,7 @@
                 <th scope="col">項目名</th>
                 <th scope="col">学習時間</th>
                 <th scope="col" aria-hidden="true"></th>
+                <th scope="col" aria-hidden="true"></th>
             </tr>
             </thead>
             <tbody>
@@ -343,6 +378,15 @@
                         学習時間を保存する
                     </button>
                 </td>
+                <td>
+                    <form th:action="@{/skill/records/delete}"
+                          method="post"
+                          th:id="'delete-form-' + ${record.id}">
+                        <input type="hidden" name="recordId" th:value="${record.id}">
+                        <input type="hidden" name="month" th:value="${selectedMonth.value}">
+                        <button type="submit" class="btn-danger">削除する</button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -360,6 +404,16 @@
         <p>
             <span th:text="${updatedItemName} + 'の学習時間を'"></span><br>
             <span th:text="${updatedMinutes} + '分で更新しました！'"></span>
+        </p>
+        <a th:href="@{/skill/edit(month=${selectedMonth.value})}">
+            <button type="button">編集ページに戻る</button>
+        </a>
+    </div>
+</div>
+<div th:if="${deleteCompleted}" id="modal-overlay">
+    <div id="modal-box">
+        <p>
+            <span th:text="${deletedItemName} + 'を削除しました！'"></span>
         </p>
         <a th:href="@{/skill/edit(month=${selectedMonth.value})}">
             <button type="button">編集ページに戻る</button>

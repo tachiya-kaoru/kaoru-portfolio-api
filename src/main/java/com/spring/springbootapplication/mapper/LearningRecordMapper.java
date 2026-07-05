@@ -25,4 +25,7 @@ public interface LearningRecordMapper {
         @Param("userId") Long userId,
         @Param("learningTimeMinutes") Integer learningTimeMinutes);
 
+    int deleteByIdAndUserId(
+        @Param("id") Long id,
+        @Param("userId") Long userId);    
 }

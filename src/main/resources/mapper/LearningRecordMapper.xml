@@ -58,4 +58,10 @@
         WHERE id = #{id}
           AND user_id = #{userId}
     </update>
+
+    <delete id="deleteByIdAndUserId">
+        DELETE FROM learning_records
+        WHERE id = #{id}
+          AND user_id = #{userId}
+    </delete>
 </mapper>
