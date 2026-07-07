@@ -217,4 +217,70 @@ public class SkillEditController {
         // ⑤ 編集画面を表示
         return "skill/edit";
     }
+     /* 学習項目を削除する */
+    @PostMapping("/skill/records/delete")
+    public String deleteRecord(
+        @RequestParam(name = "recordId") Long recordId,
+        @RequestParam(name = "month") String month,
+        Model model,
+        HttpSession session) {
+    
+        // ① ログイン確認
+        Object loginUserEmail = session.getAttribute("loginUserEmail");
+        if (loginUserEmail == null) {
+            return "redirect:/login";
+            }
+        User user = userMapper.findByEmail(loginUserEmail.toString());
+        if (user == null) {
+            return "redirect:/login";
+        }
+    
+        MonthOption selectedMonth = LearningMonthOptions.resolveSelectedMonth(month);
+    
+        // ② 削除前に項目名を取得
+        List<LearningRecord> learningRecords = learningRecordMapper.findByUserIdAndYearAndMonth(
+                user.getId(),
+                selectedMonth.getYear(),
+                selectedMonth.getMonth());
+    
+        String deletedItemName = null;
+        for (LearningRecord record : learningRecords) {
+            if (record.getId().equals(recordId)) {
+                deletedItemName = record.getItemName();
+                break;
+            }
+        }
+    
+        if (deletedItemName == null) {
+                return "redirect:/skill/edit?month=" + selectedMonth.getValue();
+        }
+    
+        // ③ DB削除（自分のレコードだけ）
+        int deleted = learningRecordMapper.deleteByIdAndUserId(
+                recordId,
+                user.getId());
+    
+        if (deleted == 0) {
+                return "redirect:/skill/edit?month=" + selectedMonth.getValue();
+        }
+    
+        // ④ 編集画面のデータを再取得
+        List<MonthOption> monthOptions = LearningMonthOptions.buildRecentMonths();
+        List<Category> categories = categoryMapper.findAll();
+        learningRecords = learningRecordMapper.findByUserIdAndYearAndMonth(
+                user.getId(),
+                selectedMonth.getYear(),
+                selectedMonth.getMonth());
+    
+        model.addAttribute("headerNav", HeaderNavMode.LOGOUT);
+        model.addAttribute("monthOptions", monthOptions);
+        model.addAttribute("selectedMonth", selectedMonth);
+        model.addAttribute("categories", categories);
+        model.addAttribute("learningRecords", learningRecords);
+        model.addAttribute("deleteCompleted", true);
+        model.addAttribute("deletedItemName", deletedItemName);
+    
+        // ⑤ 編集画面を表示
+        return "skill/edit";
+    }
 }
