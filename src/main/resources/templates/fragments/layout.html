@@ -2,7 +2,8 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <body>
     <header th:fragment="siteHeader" class="site-header">
-        <h1 class="site-title">My Portfolio</h1>
+        <a th:if="${headerNav != null and headerNav.name() == 'LOGOUT'}" th:href="@{/top}" class="site-title site-title-link">My Portfolio</a>
+        <h1 th:unless="${headerNav != null and headerNav.name() == 'LOGOUT'}" class="site-title">My Portfolio</h1>
         <nav class="site-header-actions" th:if="${headerNav != null}">
             <th:block th:if="${headerNav.name() == 'LOGIN'}">
                 <a th:href="@{/login}" class="header-login-btn">ログイン</a>
