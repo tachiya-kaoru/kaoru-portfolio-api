@@ -64,4 +64,20 @@
         WHERE id = #{id}
           AND user_id = #{userId}
     </delete>
+    <!-- チャート用：指定期間の年月×カテゴリごとの学習時間合計 -->
+    <select id="sumMinutesByUserIdAndMonthRange"
+            resultType="com.spring.springbootapplication.domain.CategoryMonthLearningSummary">
+        SELECT
+            learning_year AS learningYear,
+            learning_month AS learningMonth,
+            category_id AS categoryId,
+            SUM(learning_time_minutes) AS totalMinutes
+        FROM learning_records
+        WHERE user_id = #{userId}
+        AND (learning_year * 100 + learning_month)
+            BETWEEN (#{fromYear} * 100 + #{fromMonth})
+                AND (#{toYear} * 100 + #{toMonth})
+        GROUP BY learning_year, learning_month, category_id
+        ORDER BY learning_year, learning_month, category_id
+    </select>
 </mapper>

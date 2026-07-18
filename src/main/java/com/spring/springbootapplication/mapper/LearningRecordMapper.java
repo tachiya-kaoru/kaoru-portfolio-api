@@ -1,6 +1,7 @@
 package com.spring.springbootapplication.mapper;
 
 import com.spring.springbootapplication.domain.LearningRecord;
+import com.spring.springbootapplication.domain.CategoryMonthLearningSummary;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -27,5 +28,12 @@ public interface LearningRecordMapper {
 
     int deleteByIdAndUserId(
         @Param("id") Long id,
-        @Param("userId") Long userId);    
+        @Param("userId") Long userId); 
+        
+    List<CategoryMonthLearningSummary> sumMinutesByUserIdAndMonthRange(
+        @Param("userId") Long userId,
+        @Param("fromYear") Integer fromYear,
+        @Param("fromMonth") Integer fromMonth,
+        @Param("toYear") Integer toYear,
+        @Param("toMonth") Integer toMonth);
 }
