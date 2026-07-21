@@ -117,11 +117,15 @@
         .top-chart-frame {
             width: 100%;
             max-width: 960px;
-            min-height: 200px;
-            border: 2px dashed rgba(0, 0, 0, 0.25);
-            border-radius: 4px;
+            min-height: 400px;
+            padding: 24px 16px;
             box-sizing: border-box;
-            background: #fafafa;
+            background: #fff;
+        }
+
+        #learningChart {
+            width: 100%;
+            min-height: 360px;
         }
 
         @media (max-width: 768px) {
@@ -192,16 +196,84 @@
         </div>
     </section>
 
-    <section class="top-chart" aria-label="学習チャート（未実装）">
+    <section class="top-chart" aria-label="学習チャート">
         <div class="top-chart-head">
             <h2 class="top-section-title">学習チャート</h2>
             <hr class="top-section-rule">
         </div>
         <a th:href="@{/skill/edit}" class="top-btn-primary">編集する</a>
-        <div class="top-chart-frame" aria-hidden="true"></div>
+        <div class="top-chart-frame">
+            <div id="learningChart"></div>
+        </div>
     </section>
 </main>
 
 <div th:replace="~{fragments/layout :: siteFooter}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script th:inline="javascript">
+    (function () {
+        var monthLabels = /*[[${chartMonthLabels}]]*/ [];
+        var categoryNames = /*[[${chartCategoryNames}]]*/ [];
+        var seriesData = /*[[${chartSeriesData}]]*/ [];
+
+        // Figma に近い色（バックエンド / フロントエンド / インフラ）
+        var colors = ['#F4A6C8', '#F5C16C', '#F5E6A3'];
+
+        var series = [];
+        for (var i = 0; i < categoryNames.length; i++) {
+            series.push({
+                name: categoryNames[i],
+                data: seriesData[i] || [0, 0, 0]
+            });
+        }
+
+        var options = {
+            chart: {
+                type: 'bar',
+                height: 360,
+                toolbar: { show: false }
+            },
+            series: series,
+            colors: colors,
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    borderRadius: 2
+                }
+            },
+            dataLabels: { enabled: false },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: monthLabels
+            },
+            yaxis: {
+                title: { text: '学習時間（分）' },
+                min: 0
+                // max は固定しない → 上限なしでデータに合わせて伸びる
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'center'
+            },
+            fill: { opacity: 1 },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return val + ' 分';
+                    }
+                }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector('#learningChart'), options);
+        chart.render();
+    })();
+</script>
 </body>
 </html>
